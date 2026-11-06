@@ -108,4 +108,9 @@ VALUES (11000, 11000),
        (1052116, 1052116),
        (1301000, 1301000),
        (1200001, 1200001),
-       (1200002, 1200002);
+       (1200002, 1200002),
+       (9000, 9000031),         -- Cassandra scroll shop
+       (9001, 9101000),         -- No String Equip shop
+       (9002, 9010005),         -- Pettite Ammo shop
+       (9003, 9000029),         -- Winky the Fairy PQ Shop
+       (9004, 9201142);         -- Witch Malady Misc Items
