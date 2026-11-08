@@ -286,6 +286,10 @@ public class NPCConversationManager extends AbstractPlayerInteraction {
         getPlayer().gainExp(gain, true, true);
     }
 
+    public void gainNx(int gain) {
+        getPlayer().getCashShop().gainCash(1, gain);
+    }
+
     @Override
     public void showEffect(String effect) {
         getPlayer().getMap().broadcastMessage(PacketCreator.environmentChange(effect, 3));

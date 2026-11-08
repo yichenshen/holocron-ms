@@ -74,6 +74,7 @@ CREATE TABLE characters
     lastExpGainTime      TIMESTAMP        NOT NULL DEFAULT '2015-01-01 05:00:00',
     partySearch          TINYINT          NOT NULL DEFAULT '1',
     jailexpire           BIGINT           NOT NULL DEFAULT '0',
+    lastDailyClaimTime   TIMESTAMP        NOT NULL DEFAULT '2015-01-01 05:00:00',
     PRIMARY KEY (id),
     KEY accountid (accountid),
     KEY party (party),
