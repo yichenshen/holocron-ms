@@ -1,0 +1,12 @@
+[Unit]
+Description=MapleStory Server Pod
+After=network-online.target
+
+[Pod]
+PodName=maplestory-pod
+
+# Login Server Port
+PublishPort=8484:8484
+
+# 20 Channel Server Ports
+PublishPort=7575-7594:7575-7594

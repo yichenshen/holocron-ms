@@ -1,0 +1,16 @@
+[Unit]
+Description=MapleStory MySQL Database Container
+After=maplestory-pod.service
+BindsTo=maplestory-pod.service
+
+[Container]
+ContainerName=maplestory-db
+Pod=maplestory.pod
+Image=docker.io/library/mysql:8.4.0
+AutoUpdate=registry
+Environment=MYSQL_DATABASE=cosmic
+Environment=MYSQL_ALLOW_EMPTY_PASSWORD=yes
+Volume=maplestory-db.volume:/var/lib/mysql:Z
+
+[Service]
+Restart=always

@@ -1,0 +1,14 @@
+[Unit]
+Description=MapleStory Server Application Container
+After=maplestory-db.service
+BindsTo=maplestory-pod.service
+
+[Container]
+ContainerName=maplestory-server
+Pod=maplestory.pod
+Image=localhost/maplestory-app:latest
+AutoUpdate=registry
+Environment=DB_HOST=localhost
+
+[Service]
+Restart=always
