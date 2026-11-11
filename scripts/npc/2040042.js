@@ -68,19 +68,27 @@ function action(mode, type, selection) {
         } else {
             if (eim.isEventLeader(cm.getPlayer())) {
                 var state = eim.getIntProperty("statusStg" + stage);
+                var players = eim.getPlayerCount();
+                var needed = Math.ceil(players / 2);
 
                 if (state == -1) {           // preamble
                     cm.sendOk("Hi. Welcome to the #bstage " + stage + "#k. You need ranged personnel here. They must kill the three Ratz, which will trigger something. What's next is for you to find out! Get me 3 passes!");
                     eim.setProperty("statusStg" + stage, 0);
+
+                    if (eim.getPlayerCount() < 3) {
+                        var blackRatz = cm.getMap().getMonsterById(9300170);
+                        cm.getMap().damageMonster(cm.getPlayer(), blackRatz, 99999, 0);
+                    }
                 } else if (state == 0) {       // check stage completion
-                    if (cm.haveItem(4001022, 3)) {
-                        cm.sendOk("Good job! You have collected all 3 #b#t4001022#'s.#k");
-                        cm.gainItem(4001022, -3);
+                    if (cm.haveItem(4001022, needed)) {
+                        var owned = cm.getItemQuantity(4001022);
+                        cm.sendOk("Good job! You have collected all " + needed + " #b#t4001022#'s.#k");
+                        cm.gainItem(4001022, -1 * owned);
 
                         eim.setProperty("statusStg" + stage, 1);
                         clearStage(stage, eim, curMap);
                     } else {
-                        cm.sendNext("Sorry you don't have all 3 #b#t4001022#'s.#k");
+                        cm.sendNext("Sorry you don't have all " + needed + " #b#t4001022#'s.#k");
                     }
                 }
             } else {

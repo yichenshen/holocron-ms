@@ -67,19 +67,26 @@ function action(mode, type, selection) {
         } else {
             if (eim.isEventLeader(cm.getPlayer())) {
                 var state = eim.getIntProperty("statusStg" + stage);
+                var players = eim.getPlayerCount();
+                var needed = 15;
+
+                if (players < 5) {
+                    needed = needed / 5 * players;
+                }
 
                 if (state == -1) {           // preamble
-                    cm.sendOk("Hi. Welcome to the #bstage " + stage + "#k. Collect 15 #t4001022#'s scattered across the map, then talk to me.");
+                    cm.sendOk("Hi. Welcome to the #bstage " + stage + "#k. Collect " + needed + " #t4001022#'s scattered across the map, then talk to me.");
                     eim.setProperty("statusStg" + stage, 0);
                 } else {       // check stage completion
-                    if (cm.haveItem(4001022, 15)) {
-                        cm.sendOk("Good job! You have collected all 15 #b#t4001022#'s.#k");
-                        cm.gainItem(4001022, -15);
+                    if (cm.haveItem(4001022, needed)) {
+                        var owned = cm.getItemQuantity(4001022);
+                        cm.sendOk("Good job! You have collected all " + needed + " #b#t4001022#'s.#k");
+                        cm.gainItem(4001022, -1 * owned);
 
                         eim.setProperty("statusStg" + stage, 1);
                         clearStage(stage, eim, curMap);
                     } else {
-                        cm.sendNext("Sorry you don't have all 15 #b#t4001022#'s.#k");
+                        cm.sendNext("Sorry you don't have all " + needed + " #b#t4001022#'s.#k");
                     }
                 }
             } else {

@@ -65,6 +65,10 @@ function action(mode, type, selection) {
                 if (state == -1) {           // preamble
                     cm.sendOk("Hi. Welcome to the #bBOSS stage#k. Kill the Ratz on that platform to reveal the Alishar, and defeat him!");
                     eim.setProperty("statusStg" + stage, 0);
+                    if (eim.getPlayerCount() < 3) {
+                        var blackRatz = cm.getMap().getMonsterById(9300006);
+                        cm.getMap().damageMonster(cm.getPlayer(), blackRatz, 99999, 0);
+                    }
                 } else {                      // check stage completion
                     if (cm.haveItem(4001023, 1)) {
                         cm.gainItem(4001023, -1);

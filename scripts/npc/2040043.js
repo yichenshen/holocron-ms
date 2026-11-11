@@ -32,10 +32,13 @@
 @	Description: Used to find the combo to unlock the next door. Players stand on 5 different crates to guess the combo.
 */
 
-function generateCombo() {
+function generateCombo(size) {
     var countPicked = 0;
     var positions = Array(0, 0, 0, 0, 0, 0, 0, 0, 0);
-    while (countPicked < 5) {
+
+    var toPick = Math.min(size, 5);
+
+    while (countPicked < toPick) {
         var picked = Math.floor(Math.random() * positions.length);
         if (positions[picked] == 1) // Don't let it pick one its already picked.
         {
@@ -125,10 +128,10 @@ function action(mode, type, selection) {
                         }
                     }
 
-                    if (playersOnCombo == 5 || cm.getPlayer().gmLevel() > 1) {
+                    if (playersOnCombo == 5 || playersOnCombo == party.size()) {
                         var comboStr = eim.getProperty("stage" + stage + "combo");
                         if (comboStr == null) {
-                            comboStr = generateCombo();
+                            comboStr = generateCombo(party.size());
                             eim.setProperty("stage" + stage + "combo", comboStr);
                         }
 
@@ -140,7 +143,7 @@ function action(mode, type, selection) {
                                 correctCombo = false;
                             }
                         }
-                        if (correctCombo || cm.getPlayer().gmLevel() > 1) {
+                        if (correctCombo) {
                             eim.setProperty("statusStg" + stage, 1);
                             clearStage(stage, eim, curMap);
                             cm.dispose();
