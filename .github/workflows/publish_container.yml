@@ -2,9 +2,12 @@ name: Publish Container
 
 on:
   workflow_dispatch:
-env:
-  IMAGE_NAME: holocron-ms
-#
+    inputs:
+      release:
+        description: Release tag to publish (for example v1.2.3)
+        required: true
+        type: string
+
 jobs:
   # This pushes the image to GitHub Packages.
   push:
@@ -13,8 +16,45 @@ jobs:
       packages: write
       contents: read
     steps:
+      - name: Resolve release and image tags
+        id: release
+        uses: actions/github-script@v7
+        env:
+          RELEASE_TAG: ${{ inputs.release }}
+        with:
+          script: |
+            const tag = process.env.RELEASE_TAG;
+            if (!/^[a-zA-Z0-9_][a-zA-Z0-9_.-]{0,127}$/.test(tag)) {
+              throw new Error('Release tag must be a valid container tag (1-128 letters, digits, underscores, dots or hyphens; no leading dot or hyphen).');
+            }
+
+            const { data: release } = await github.rest.repos.getReleaseByTag({
+              ...context.repo,
+              tag
+            });
+            if (release.draft) {
+              throw new Error('Publish the GitHub release before publishing its container.');
+            }
+
+            let latestTag;
+            try {
+              const { data: latest } = await github.rest.repos.getLatestRelease(context.repo);
+              latestTag = latest.tag_name;
+            } catch (error) {
+              if (error.status !== 404) throw error;
+              core.info('No latest published release; only the version image tag will be pushed.');
+            }
+
+            const image = `ghcr.io/${context.repo.owner}/${context.repo.repo}`.toLowerCase();
+            const tags = [`${image}:${tag}`];
+            if (tag === latestTag) tags.push(`${image}:latest`);
+            core.setOutput('ref', `refs/tags/${tag}`);
+            core.setOutput('tags', tags.join('\n'));
+
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          ref: ${{ steps.release.outputs.ref }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -33,8 +73,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./Containerfile
+          file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: |
-            ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest
+          tags: ${{ steps.release.outputs.tags }}
