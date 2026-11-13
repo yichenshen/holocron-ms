@@ -37,7 +37,9 @@ You may contribute to the project in various ways, mainly through GitHub:
 ### Continuous integration
 A GitHub Actions pipeline is set up to run the build automatically when a new pull request is opened or commits are pushed to an existing one. This ensures that the code compiles and all the tests pass.
 
-Once a pull request is merged, a tag with the new version is automatically created.
+Releases and version tags are created manually on GitHub.
+
+To publish a container, run **Publish Container** from the Actions tab and enter an existing published release tag (for example `v1.2.3`) in the **release** input. The workflow builds the source at that tag and publishes `ghcr.io/yichenshen/holocron-ms:v1.2.3`. If the selected release is GitHub's latest release, it also updates `ghcr.io/yichenshen/holocron-ms:latest`; publishing an older release does not move that tag. Release tags must also be valid container tags.
 
 ### Discord integration
 Most GitHub activity is pushed to a Discord channel for visibility. This works by leveraging a webhook. The activity includes (but is not limited to): merged commits, created PRs, comments, and new tags.
