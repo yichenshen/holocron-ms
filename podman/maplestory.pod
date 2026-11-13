@@ -9,7 +9,7 @@ PodName=maplestory-pod
 PublishPort=8484:8484
 
 # 20 Channel Server Ports
-PublishPort=7575-7594:7575-7594
+PublishPort=7575-7694:7575-7694
 
 [Install]
 WantedBy=default.target
