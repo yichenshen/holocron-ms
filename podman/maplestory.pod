@@ -10,6 +10,3 @@ PublishPort=8484:8484
 
 # 20 Channel Server Ports
 PublishPort=7575-7694:7575-7694
-
-[Install]
-WantedBy=default.target
