@@ -666,6 +666,10 @@ public class MapleMap {
             float cardRate = chr.getCardRate(de.itemId);
             int dropChance = (int) Math.min((float) de.chance * chRate * cardRate, Integer.MAX_VALUE);
 
+            if (ItemConstants.getInventoryType(de.itemId) == InventoryType.EQUIP) {
+                dropChance *= 2;
+            }
+
             if (Randomizer.nextInt(999999) < dropChance) {
                 if (droptype == 3) {
                     pos.x = mobpos + ((index % 2 == 0) ? (40 * ((index + 1) / 2)) : -(40 * (index / 2)));
