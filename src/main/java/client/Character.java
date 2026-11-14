@@ -4992,6 +4992,10 @@ public class Character extends AbstractCharacterObject {
         return dropRate / (dropCoupon * getWorldServer().getDropRate());
     }
 
+    public float getEquipDropMul() {
+        return getWorldServer().getEquipDropMul();
+    }
+
     public int getBossDropRate() {
         World w = getWorldServer();
         return (dropRate / w.getDropRate()) * w.getBossDropRate();

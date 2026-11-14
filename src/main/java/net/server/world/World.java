@@ -121,6 +121,7 @@ public class World {
     private int flag;
     private int exprate;
     private int droprate;
+    private float equipdropmul;
     private int bossdroprate;
     private int mesorate;
     private int questrate;
@@ -200,12 +201,13 @@ public class World {
     private ScheduledFuture<?> timeoutSchedule;
     private ScheduledFuture<?> hpDecSchedule;
 
-    public World(int world, int flag, String eventmsg, int exprate, int droprate, int bossdroprate, int mesorate, int questrate, int travelrate, int fishingrate) {
+    public World(int world, int flag, String eventmsg, int exprate, int droprate, float equipdropmul, int bossdroprate, int mesorate, int questrate, int travelrate, int fishingrate) {
         this.id = world;
         this.flag = flag;
         this.eventmsg = eventmsg;
         this.exprate = exprate;
         this.droprate = droprate;
+        this.equipdropmul = equipdropmul;
         this.bossdroprate = bossdroprate;
         this.mesorate = mesorate;
         this.questrate = questrate;
@@ -398,6 +400,14 @@ public class World {
             }
             chr.setWorldRates();
         }
+    }
+
+    public float getEquipDropMul() {
+        return equipdropmul;
+    }
+
+    public void setEquipDropMul(float equipdrop) {
+        equipdropmul = equipdrop;
     }
 
     public int getBossDropRate() {  // boss rate concept thanks to Lapeiro
@@ -1763,22 +1773,22 @@ public class World {
             r.run();
         }
     }
-    
+
     public void addPlayerHpDecrease(Character chr) {
         playerHpDec.putIfAbsent(chr, 0);
     }
-    
+
     public void removePlayerHpDecrease(Character chr) {
         playerHpDec.remove(chr);
     }
-    
+
     public void runPlayerHpDecreaseSchedule() {
         Map<Character, Integer> m = new HashMap<>();
         m.putAll(playerHpDec);
-        
+
         for (Entry<Character, Integer> e : m.entrySet()) {
             Character chr = e.getKey();
-            
+
             if (!chr.isAwayFromWorld()) {
                 int c = e.getValue();
                 c = (c + 1) % YamlConfig.config.server.MAP_DAMAGE_OVERTIME_COUNT;
@@ -2204,7 +2214,7 @@ public class World {
             timeoutSchedule.cancel(false);
             timeoutSchedule = null;
         }
-        
+
         if(hpDecSchedule != null) {
             hpDecSchedule.cancel(false);
             hpDecSchedule = null;

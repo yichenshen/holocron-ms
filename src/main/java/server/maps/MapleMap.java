@@ -664,11 +664,13 @@ public class MapleMap {
 
         for (final MonsterDropEntry de : dropEntry) {
             float cardRate = chr.getCardRate(de.itemId);
-            int dropChance = (int) Math.min((float) de.chance * chRate * cardRate, Integer.MAX_VALUE);
+            int dropRate = chRate;
 
             if (ItemConstants.getInventoryType(de.itemId) == InventoryType.EQUIP) {
-                dropChance *= 2;
+                dropRate *= chr.getEquipDropMul();
             }
+
+            int dropChance = (int) Math.min((float) de.chance * dropRate * cardRate, Integer.MAX_VALUE);
 
             if (Randomizer.nextInt(999999) < dropChance) {
                 if (droptype == 3) {

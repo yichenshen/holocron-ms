@@ -152,6 +152,7 @@ import client.command.commands.gm3.TimerMapCommand;
 import client.command.commands.gm3.ToggleCouponCommand;
 import client.command.commands.gm3.UnBanCommand;
 import client.command.commands.gm4.BossDropRateCommand;
+import client.command.commands.gm4.EquipDropMulCommand;
 import client.command.commands.gm4.CakeCommand;
 import client.command.commands.gm4.DropRateCommand;
 import client.command.commands.gm4.ExpRateCommand;
@@ -504,6 +505,7 @@ public class CommandsExecutor {
         addCommand("mesorate", 4, MesoRateCommand.class);
         addCommand("droprate", 4, DropRateCommand.class);
         addCommand("bossdroprate", 4, BossDropRateCommand.class);
+        addCommand("equipdropmul", 4, EquipDropMulCommand.class);
         addCommand("questrate", 4, QuestRateCommand.class);
         addCommand("travelrate", 4, TravelRateCommand.class);
         addCommand("fishrate", 4, FishingRateCommand.class);

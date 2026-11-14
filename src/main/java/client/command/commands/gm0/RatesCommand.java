@@ -43,6 +43,7 @@ public class RatesCommand extends Command {
         showMsg_ += "MESO Rate: #e#b" + player.getMesoRate() + "x#k#n" + "\r\n";
         showMsg_ += "DROP Rate: #e#b" + player.getDropRate() + "x#k#n" + "\r\n";
         showMsg_ += "BOSS DROP Rate: #e#b" + player.getBossDropRate() + "x#k#n" + "\r\n";
+        showMsg_ += "EQUIP Rate Multiplier: #e#b" + String.format("%.2f", player.getEquipDropMul()) + "x#k#n" + "\r\n";
         if (YamlConfig.config.server.USE_QUEST_RATE) {
             showMsg_ += "QUEST Rate: #e#b" + c.getWorldServer().getQuestRate() + "x#k#n" + "\r\n";
         }
