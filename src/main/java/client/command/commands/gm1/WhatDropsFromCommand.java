@@ -26,7 +26,9 @@ package client.command.commands.gm1;
 import client.Character;
 import client.Client;
 import client.command.Command;
+import client.inventory.InventoryType;
 import constants.id.NpcId;
+import constants.inventory.ItemConstants;
 import server.ItemInformationProvider;
 import server.life.MonsterDropEntry;
 import server.life.MonsterInformationProvider;
@@ -63,6 +65,9 @@ public class WhatDropsFromCommand extends Command {
                             continue;
                         }
                         float chance = Math.max(1000000 / drop.chance / (!MonsterInformationProvider.getInstance().isBoss(mobId) ? player.getDropRate() : player.getBossDropRate()), 1);
+                        if (ItemConstants.getInventoryType(drop.itemId) == InventoryType.EQUIP) {
+                            chance *= player.getEquipDropMul();
+                        }
                         output += "- " + name + " (1/" + (int) chance + ")\r\n";
                     } catch (Exception ex) {
                         ex.printStackTrace();
