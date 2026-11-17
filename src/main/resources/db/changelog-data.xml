@@ -57,5 +57,8 @@
     <changeSet id="1001" author="yichenshen">
         <sqlFile path="db/data/additions/1001-boss-items.sql"/>
     </changeSet>
+    <changeSet id="1002" author="yichenshen">
+        <sqlFile path="db/data/additions/1002-mastery-books.sql"/>
+    </changeSet>
 
 </databaseChangeLog>
